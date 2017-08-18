@@ -4,3 +4,6 @@ obj/
 Ships.depend
 Ships.layout
 doxygen/Nowy dokument sformatowany.rtf
+doxygen/doxyfile
+doxygen/doxygen.log
+doxygen/html/
