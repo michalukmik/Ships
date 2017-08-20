@@ -87,9 +87,20 @@ public:
 
     }
 
-    void tlumacz(string napis)/**< tlumaczenie wspolrzednych np.:A1 na x,y, dla maks n=10 */
+    void wybierz_napisem(string napis, char a)/**< wybieranie wspolrzednych za pomoca np.:A1 na x,y, dla maks n=10, zmien typ na a */
     {
+        if(napis.size()==2)
+        {
+            if((napis[0]>60)&&(napis[1]>60)) wybierz(napis[0]-64,napis[1]-64,a);
 
+            else if((napis[0]>60)&&(napis[1]<60)) wybierz(napis[0]-64,napis[1]-48,a);
+
+            else if((napis[0]<60)&&(napis[1]>60)) wybierz(napis[0]-48,napis[1]-64,a);
+
+            else if((napis[0]<60)&&(napis[1]<60)) wybierz(napis[0]-48,napis[1]-48,a);
+        }
+
+        else cout << "Podano nieprawidlowe wspolrzedne"<< endl;
     }
 
     void wybierz(int x,int y,char a)
@@ -126,8 +137,14 @@ int main()
   p.ustaw_bok(0,1);
   p.rysuj();
 
+  string a;
+  cin >> a;
+
+  p.wybierz_napisem(a,'o');
+
+  p.rysuj();
 
 
 
-    return 0;
+  return 0;
 }
