@@ -17,6 +17,8 @@
 
 #include <iostream>
 #include <vector>
+#include <stdlib.h>
+#include <string>
 
 using namespace std;
 
@@ -46,6 +48,7 @@ public:
  *Planasz o wymiarach NxN składa się z tablicy wektorowej zawiarajacej Pola.
  *W klasie powinno sie znajdowac rysowanie planszy, z uwzglednieniem funkcji rysujacej boki, jak rowniez system wybierania
  *pol i zmieniania ich typow, co bedzie niezbedne w klasie statek.
+ *Plansza nie powinna być większ niz n=10, gdyz psuje funkcje tlumacz.
  */
 
 class Plansza
@@ -54,21 +57,48 @@ private:
     vector  <vector <Pole>> vec; /**< Plansza to tablica dwu wektorowa NxN pol. */
     int n; /**< Rozmiar planszy to (n-1)x(n-1), bo zerowy rząd jest poswiacony na oznaczenia ulatwiajace wybor wspolrzedncyh */
 public:
-    Plansza(int n_=8):n(n_){stworz(n_);}/**< Iniciuje podstawowa plansze, bez bokow. Plansza ma podstawowe wymiary 8x8. */
+    Plansza(int n_=9):n(n_){stworz(n_);}/**< Iniciuje podstawowa plansze, z bokami bokow. Plansza ma podstawowe wymiary 9x9(pamietac o bokach) . */
 
-    void stworz(int n_)/**< Funkcja odpowiedzialna za tworzenie tablicy wektorowej pol NxN. */
+    void stworz(int n_)/**< Funkcja odpowiedzialna za inicializowanie tablicy wektorowej pol NxN. */
     {
         for(int i=0;i<n_;i++)
         {
             vec.push_back(vector<Pole>());
                 for(int j=0;j<n_;j++)
                     {
-                        vec[i].push_back((i,j,'.'));
+                        Pole p(i,j,'.');
+                        vec[i].push_back(p);
                     }
         }
 
     }
-    void rysuj()
+
+
+    void ustaw_bok(bool side,bool num_char)/**< side góra/bok(1/0),num_char cyfry/litery(1/0) */
+    {
+        vec[0][0].ustaw_typ(' ');
+        if((side==1)&&(num_char==1)) for(int i=1;i<=n;i++)vec[0][i].ustaw_typ(48+i);
+
+        else if((side==1)&&(num_char==0)) for(int i=1;i<=n;i++)vec[0][i].ustaw_typ(64+i);
+
+        else if((side==0)&&(num_char==1)) for(int i=1;i<=n-1;i++)vec[i][0].ustaw_typ(48+i);
+
+        else if((side==0)&&(num_char==0)) for(int i=1;i<=n-1;i++)vec[i][0].ustaw_typ(64+i);
+
+    }
+
+    void tlumacz(string napis)/**< tlumaczenie wspolrzednych np.:A1 na x,y, dla maks n=10 */
+    {
+
+    }
+
+    void wybierz(int x,int y,char a)
+    {
+        vec[x][y].ustaw_typ(a);
+    }
+
+
+    void rysuj()/**< Funkcja odpowiedzialna za rysowanie planszy */
     {
        {
         for(int i=0;i<n;i++)
@@ -82,12 +112,22 @@ public:
 
     }
     }
+
+
 };
 
 
 
 int main()
 {
+
+  Plansza p;
+  p.ustaw_bok(1,0);
+  p.ustaw_bok(0,1);
+  p.rysuj();
+
+
+
 
     return 0;
 }
