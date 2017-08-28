@@ -59,6 +59,7 @@ private:
 public:
     Plansza(int n_=9):n(n_){stworz(n_);}/**< Iniciuje podstawowa plansze, z bokami bokow. Plansza ma podstawowe wymiary 9x9(pamietac o bokach) . */
 
+    int size(){return n;}
     void stworz(int n_)/**< Funkcja odpowiedzialna za inicializowanie tablicy wektorowej pol NxN. */
     {
         for(int i=0;i<n_;i++)
@@ -72,6 +73,7 @@ public:
         }
 
     }
+
 
 
     void ustaw_bok(bool side,bool num_char)/**< side góra/bok(1/0),num_char cyfry/litery(1/0) */
@@ -107,6 +109,10 @@ public:
     {
         vec[x][y].ustaw_typ(a);
     }
+    char zwroc_typ(int x, int y)
+    {
+        vec[x][y].zwroc_typ();
+    }
 
 
     void rysuj()/**< Funkcja odpowiedzialna za rysowanie planszy */
@@ -127,7 +133,67 @@ public:
 
 };
 
+/** \brief Klasa statek odpowiada ustawienie(poczatkowe rowniez), ruch, strzal, zatopienie.
+ *
+ */
 
+
+class Statek
+{
+private:
+    vector <Pole> polozenie_masztow; /**< Tablica zawierajaca polozenie czesci statkow */
+    char rodzaj;/**< typ char statku  */
+    int dlugosc;/**< Ilosc masztow */
+    bool kierunek;/**< Pionowo/poziomo (1/0) */
+    int strzal;/**< Ilosc strzalow ktore moze oddac statek */
+    int zasieg;/**< ilosc pol ktore moze przeplynac statek*/
+    bool stan;/**< (1/0) plywa/nie plywa */
+public:
+    Statek(char rodzaj_='S',int dlugosc_=3,int strzal_=1,int zasieg_=0):rodzaj(rodzaj_),dlugosc(dlugosc_),strzal(strzal_),zasieg(zasieg_){stworz_statek();}
+
+    void stworz_statek()
+    {
+        Pole p;
+        for(int i=0;i<dlugosc;i++)
+            {
+                polozenie_masztow.push_back(p);
+                polozenie_masztow[i].ustaw_typ(rodzaj);
+            }
+    }
+
+
+
+    void ustaw_rodzaj(char rodzaj_){rodzaj=rodzaj_;}
+    char zwroc_rodzaj(){return rodzaj;}
+    void ustaw_dlugosc(int dlugosc_){dlugosc=dlugosc_;}
+    int zwroc_dlugosc(){return dlugosc;}
+    void ustaw_kierunek(bool kierunek_){kierunek=kierunek_;}
+    void ustaw_strzal(int strzal_){strzal=strzal_;}
+    void ustaw_zasieg(int zasieg_){zasieg=zasieg_;}
+    void zmien_stan(bool stan_){stan=stan_;}
+
+    void rand_start_xy(Plansza &p)
+    {
+        for(int i=0;i<dlugosc;i++) p.wybierz(9,9,rodzaj);
+    }
+
+    bool can_i_place_ship(Plansza p, int dx, int dy)
+    {
+
+    }
+    bool can_i_place_ship_vertical(Plansza p,int dx, int dy)
+    {
+        bool a;
+        for(int i=dx-1;(i<=dx+2)&&(i<=p.size());i++)
+        {
+            for(int j=dy-1;(i<=dy-1+dlugosc)&&(i<=p.size());i++)
+            {
+                if(p.zwroc_typ(dx,dy)!='S')
+            }
+        }
+    }
+
+};
 
 int main()
 {
@@ -136,14 +202,6 @@ int main()
   p.ustaw_bok(1,0);
   p.ustaw_bok(0,1);
   p.rysuj();
-
-  string a;
-  cin >> a;
-
-  p.wybierz_napisem(a,'o');
-
-  p.rysuj();
-
 
 
   return 0;
