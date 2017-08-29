@@ -1,3 +1,22 @@
+/** \mainpage
+\brief Gra w statki dla dwoch osob.
+ *Gra w statki dla dwoch osob. W grze wystepuja rozne typy statkow, ktore moga sie przemieszczaczacz i strzelac.
+ *  Raz trafiony statek jest unieszkodliwiony, tzn. nie moze wykonywac ruchu, ale zajmiuje teren.
+ * Statki nie mogą znajdować się na sasiadujacych polach.
+ * Ruch gracza polega na wybraniu statku i w zaleznosci od typu ,przemieszczenie ,a nastepnie oddanie strzalu.
+ *Gra konczy sie jak ktorys z graczy straci wszytskie statki.
+ *
+ *Plasza powinna mieć wymiary 8x8, z mozliwoscia zmiany rozmiaru. Jeden bok powinnien zawierac litery albabetu, a drugi cyfry.
+ *Pole powinno sie wybierac podajac podajac kordynaty np.: A5.
+ *Nowe klasy statkow powinny byc latwo dodawalne.
+ *Statki poruszaja sie tylko w plaszczyznie w ktorej zostaly ustawione na poczatku.
+ *Ulozenie poczatkowe statkow jest losowane.
+ *
+ */
+
+
+
+
 #include <iostream>
 #include <vector>
 #include <stdlib.h>
@@ -9,6 +28,12 @@
 #include <windows.h>
 
 using namespace std;
+
+
+/** \brief Klasa pole. Pole jest podstawowa "jednostka" na ktora zachodza operacje.
+ *Mapa bedzie sie skladac z pol, tak samo jak i statki. Kazde pole powinno posiadac dwie skladowe polozenia, jak i znak ktory okresla
+ *typ statku oraz jak jest widoczny na mapie.
+ */
 
 class Pole
 {
@@ -30,6 +55,13 @@ public:
     char zwroc_znak(){return znak;}
 
 };
+
+/** \brief Klasa plansza jak nazwa wskazuje sluzy stworzeniu plansz.
+ *Planasz o wymiarach NxN składa się z tablicy wektorowej zawiarajacej Pola.
+ *W klasie powinno sie znajdowac rysowanie planszy, z uwzglednieniem funkcji rysujacej boki, jak rowniez system wybierania
+ *pol i zmieniania ich typow, co bedzie niezbedne w klasie statek.
+ *Plansza nie powinna być większ niz n=10, gdyz psuje funkcje tlumacz.
+ */
 
 class Plansza
 {
@@ -572,7 +604,7 @@ public:
    void ruch_gracza(Gracz &gracz2)
    {
        cout<<"Ruch "<< nazwa_gracza<<". Nacisnij Enter.."<<endl;
-       getchar();
+       getch();
        rysuj_plansz();
        cout<< "Prosze wybrac statek"<<endl;
        wybierz_statek();
